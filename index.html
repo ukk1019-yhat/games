@@ -2,56 +2,60 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Chinese DOS Games</title>
+<script src="https://unpkg.com/js-dos@7.22.3/dist/js-dos.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f0f; color: #e0e0e0; }
-header { background: #1a1a2e; padding: 20px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-bottom: 1px solid #333; }
-header h1 { font-size: 22px; color: #fff; white-space: nowrap; }
-header input { flex: 1; min-width: 200px; padding: 10px 16px; border: 1px solid #444; border-radius: 8px; background: #222; color: #e0e0e0; font-size: 15px; }
+header { background: #1a1a2e; padding: 16px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #333; }
+header h1 { font-size: 20px; color: #fff; white-space: nowrap; }
+header input { flex: 1; min-width: 180px; padding: 8px 14px; border: 1px solid #444; border-radius: 8px; background: #222; color: #e0e0e0; font-size: 14px; }
 header input:focus { outline: none; border-color: #6c63ff; }
-header select { padding: 10px 16px; border: 1px solid #444; border-radius: 8px; background: #222; color: #e0e0e0; font-size: 15px; cursor: pointer; }
-.count { color: #888; font-size: 14px; white-space: nowrap; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; padding: 24px; }
+header select { padding: 8px 14px; border: 1px solid #444; border-radius: 8px; background: #222; color: #e0e0e0; font-size: 14px; cursor: pointer; }
+.count { color: #888; font-size: 13px; white-space: nowrap; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; padding: 20px; }
 .card { background: #1a1a2e; border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform .15s, box-shadow .15s; border: 1px solid #2a2a3e; }
 .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(108,99,255,.2); border-color: #6c63ff; }
 .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: #222; }
 .card .info { padding: 10px 12px; }
-.card .name { font-size: 14px; font-weight: 600; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.card .year { font-size: 12px; color: #666; margin-top: 3px; }
-/* Modal */
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.8); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+.card .name { font-size: 13px; font-weight: 600; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card .year { font-size: 11px; color: #666; margin-top: 3px; }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.85); z-index: 100; justify-content: center; align-items: center; padding: 16px; }
 .modal-overlay.active { display: flex; }
-.modal { background: #1a1a2e; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 24px; border: 1px solid #333; position: relative; }
-.modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: #888; font-size: 24px; cursor: pointer; padding: 4px 8px; line-height: 1; }
+.modal { background: #1a1a2e; border-radius: 12px; max-width: 800px; width: 100%; max-height: 95vh; overflow-y: auto; padding: 24px; border: 1px solid #333; position: relative; }
+.modal-close { position: absolute; top: 10px; right: 14px; background: none; border: none; color: #888; font-size: 22px; cursor: pointer; padding: 4px 8px; line-height: 1; z-index: 2; }
 .modal-close:hover { color: #fff; }
-.modal img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; background: #222; margin-bottom: 16px; }
-.modal h2 { font-size: 22px; color: #fff; margin-bottom: 4px; }
-.modal .zh-name { color: #888; font-size: 15px; margin-bottom: 12px; }
-.modal .meta { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-.modal .meta span { background: #2a2a3e; padding: 4px 10px; border-radius: 6px; font-size: 13px; color: #aaa; }
-.modal .section { margin-bottom: 16px; }
-.modal .section h3 { font-size: 15px; color: #fff; margin-bottom: 6px; }
-.modal .section p, .modal .section li { font-size: 14px; color: #aaa; line-height: 1.6; }
+.modal img.cover { width: 100%; max-height: 260px; object-fit: cover; border-radius: 8px; background: #222; margin-bottom: 14px; }
+.modal h2 { font-size: 20px; color: #fff; margin-bottom: 2px; }
+.modal .zh-name { color: #888; font-size: 14px; margin-bottom: 10px; }
+.modal .meta { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.modal .meta span { background: #2a2a3e; padding: 3px 10px; border-radius: 6px; font-size: 12px; color: #aaa; }
+.modal .section { margin-bottom: 14px; }
+.modal .section h3 { font-size: 14px; color: #fff; margin-bottom: 5px; }
+.modal .section p, .modal .section li { font-size: 13px; color: #aaa; line-height: 1.5; }
 .modal .section ul { list-style: none; padding: 0; }
-.modal .section ul li { padding: 4px 0; }
+.modal .section ul li { padding: 3px 0; }
 .modal .section a { color: #6c63ff; text-decoration: none; }
 .modal .section a:hover { text-decoration: underline; }
-.play-btn { display: inline-block; background: #6c63ff; color: #fff; padding: 10px 24px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; margin-top: 8px; text-decoration: none; }
+.play-btn { display: inline-block; background: #6c63ff; color: #fff; padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; margin: 6px 0 10px; text-decoration: none; }
 .play-btn:hover { background: #5a52e0; }
-.no-results { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666; font-size: 16px; }
-.keymap-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.keymap-table th, .keymap-table td { border: 1px solid #333; padding: 6px 10px; text-align: left; color: #aaa; }
+.play-btn:disabled { background: #444; cursor: not-allowed; }
+.no-results { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666; font-size: 15px; }
+.keymap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.keymap-table th, .keymap-table td { border: 1px solid #333; padding: 5px 8px; text-align: left; color: #aaa; }
 .keymap-table th { background: #222; color: #ccc; font-weight: 500; }
-@media (max-width: 600px) { .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; padding: 12px; } header { padding: 12px; } header h1 { font-size: 18px; } }
+.dosbox-container { width: 100%; aspect-ratio: 4/3; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 10px; display: none; }
+.dosbox-container.active { display: block; }
+.dosbox-container canvas { width: 100% !important; height: 100% !important; }
+@media (max-width: 600px) { .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 10px; } header { padding: 10px; } header h1 { font-size: 16px; } .modal { padding: 16px; } }
 </style>
 </head>
 <body>
 
 <header>
   <h1>Chinese DOS Games</h1>
-  <input type="text" id="search" placeholder="Search games..." oninput="filter()">
+  <input type="text" id="search" placeholder="Search..." oninput="filter()">
   <select id="yearFilter" onchange="filter()">
     <option value="all">All Years</option>
   </select>
@@ -62,42 +66,65 @@ header select { padding: 10px 16px; border: 1px solid #444; border-radius: 8px; 
 
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
+    <button class="modal-close" onclick="closeModal()">&times;</button>
     <div id="modalContent"></div>
   </div>
 </div>
 
 <script>
-let games = {};
-let gamesList = [];
+let games = {}, gamesList = [];
+let binaryHashes = {};
 
 async function load() {
   const res = await fetch('games.json');
   const data = await res.json();
   games = data.games;
   gamesList = Object.values(games);
-  
+
+  try { await fetchBinaryHashes(); } catch(e) { console.warn('Binary hashes unavailable'); }
+
   const years = new Set();
   gamesList.forEach(g => { if (g.releaseYear) years.add(g.releaseYear); });
-  const sorted = [...years].sort((a,b) => a-b);
   const sel = document.getElementById('yearFilter');
-  sorted.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; sel.appendChild(o); });
-  
+  [...years].sort((a,b) => a-b).forEach(y => {
+    const o = document.createElement('option'); o.value = y; o.textContent = y; sel.appendChild(o);
+  });
   filter();
 }
-load();
+
+async function fetchBinaryHashes() {
+  const totalGames = 1898;
+  const pageSize = 50;
+  const pages = Math.ceil(totalGames / pageSize);
+  const requests = [];
+  for (let p = 1; p <= pages; p++) {
+    requests.push(fetch(`https://api.dos.lol/v1/games?pageSize=${pageSize}&pageNumber=${p}`).then(r => r.json()));
+  }
+  const results = await Promise.all(requests);
+  for (const data of results) {
+    for (const g of data.games) {
+      const zh = g.name['zh-Hans'];
+      for (const [id, game] of Object.entries(games)) {
+        if (game.name['zh-Hans'] === zh) {
+          if (g.binary_jsdos) binaryHashes[id] = g.binary_jsdos;
+          break;
+        }
+      }
+    }
+  }
+}
 
 function filter() {
   const q = document.getElementById('search').value.toLowerCase();
   const y = document.getElementById('yearFilter').value;
   const filtered = gamesList.filter(g => {
-    const name = (g.name.en || '') + ' ' + (g.name['zh-Hans'] || '') + ' ' + (g.name['zh-Hant'] || '');
-    if (q && !name.toLowerCase().includes(q)) return false;
+    const name = ((g.name.en||'') + ' ' + (g.name['zh-Hans']||'') + ' ' + (g.name['zh-Hant']||'')).toLowerCase();
+    if (q && !name.includes(q)) return false;
     if (y !== 'all' && g.releaseYear != y) return false;
     return true;
   });
   render(filtered);
-  document.getElementById('count').textContent = filtered.length + ' / ' + gamesList.length + ' games';
+  document.getElementById('count').textContent = filtered.length + ' / ' + gamesList.length;
 }
 
 function render(list) {
@@ -121,18 +148,23 @@ function showGame(id) {
   const cover = g.coverFilename ? 'img/' + g.identifier + '/' + g.coverFilename : '';
   const zh = g.name['zh-Hans'] || '';
   const links = Object.entries(g.links || {});
-  
-  let html = '<img src="' + cover + '" alt="" onerror="this.style.display=\'none\'">';
+  const hasHash = !!binaryHashes[id];
+
+  let html = '';
+  html += '<div class="dosbox-container" id="dosbox"></div>';
+  html += '<img class="cover" src="' + cover + '" alt="" onerror="this.style.display=\'none\'">';
   html += '<h2>' + esc(name) + '</h2>';
   if (zh) html += '<div class="zh-name">' + esc(zh) + '</div>';
-  
   html += '<div class="meta">';
   if (g.releaseYear) html += '<span>' + g.releaseYear + '</span>';
   if (g.filesize) html += '<span>' + formatSize(g.filesize) + '</span>';
   if (g.executable) html += '<span>' + esc(g.executable) + '</span>';
   html += '</div>';
+  html += '<div><button class="play-btn" id="playBtn" onclick="playGame(\'' + id + '\')"' +
+    (!hasHash ? ' disabled title="Game files not loaded from original source"' : '') + '>' +
+    (hasHash ? '&#9654; Play' : '&#9654; Unavailable') + '</button></div>';
 
-  if (g.keymaps) {
+  if (g.keymaps && Object.keys(g.keymaps).length) {
     html += '<div class="section"><h3>Controls</h3>';
     if (Array.isArray(g.keymaps.actions)) {
       html += '<table class="keymap-table"><tr><th>Key</th><th>Action</th></tr>';
@@ -148,20 +180,93 @@ function showGame(id) {
 
   if (links.length) {
     html += '<div class="section"><h3>Links</h3><ul>';
-    links.forEach(([title, url]) => html += '<li><a href="' + url + '" target="_blank" rel="noopener">' + esc(title) + '</a></li>');
+    links.forEach(([title, url]) => html += '<li><a href="' + url + '" target="_blank">' + esc(title) + '</a></li>');
     html += '</ul></div>';
   }
 
   document.getElementById('modalContent').innerHTML = html;
   document.getElementById('modal').classList.add('active');
+  currentGameId = id;
 }
 
-function closeModal() { document.getElementById('modal').classList.remove('active'); }
+let currentGameId = null;
+let dosboxInstance = null;
+
+async function playGame(id) {
+  const hash = binaryHashes[id];
+  if (!hash) { alert('Game binary not available'); return; }
+
+  const g = games[id];
+  const container = document.getElementById('dosbox');
+  container.classList.add('active');
+
+  const btn = document.getElementById('playBtn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+
+  const url = 'https://binary.dos.lol/' + hash;
+  const exec = g.executable || '';
+
+  try {
+    // Clean previous
+    if (dosboxInstance) { try { dosboxInstance.exit(); } catch(e) {} dosboxInstance = null; }
+    container.innerHTML = '';
+
+    dosboxInstance = await Dos(container, {
+      cycles: 'auto',
+      autolock: true,
+    });
+
+    // Download and mount the zip
+    const resp = await fetch(url);
+    const blob = await resp.blob();
+    await dosboxInstance.fs.extract(blob);
+
+    await dosboxInstance.sound('sblaster');
+
+    if (exec) {
+      // Extract path and filename
+      const parts = exec.replace(/\\/g, '/').split('/');
+      const exeName = parts.pop();
+      const dir = parts.join('/');
+      if (dir) {
+        await dosboxInstance.dosbox([dir, exeName].join('/'));
+      } else {
+        await dosboxInstance.dosbox(exec);
+      }
+    } else {
+      // Try common executables
+      for (const tryExe of ['PLAY.BAT', 'GAME.BAT', 'DOSBOX.BAT', 'START.BAT', 'MAIN.EXE', 'GAME.EXE', 'RUN.BAT']) {
+        try {
+          await dosboxInstance.dosbox(tryExe);
+          break;
+        } catch(e) { continue; }
+      }
+    }
+
+    btn.textContent = 'Running';
+  } catch(e) {
+    console.error('Failed to start:', e);
+    container.innerHTML = '<div class="status">Failed to load. <a href="' + url + '" download>Download zip</a></div>';
+    btn.textContent = 'Play';
+    btn.disabled = false;
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  const c = document.getElementById('dosbox');
+  c.classList.remove('active');
+  if (dosboxInstance) { try { dosboxInstance.exit(); } catch(e) {} dosboxInstance = null; }
+  c.innerHTML = '';
+}
 document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-function formatSize(bytes) { if (!bytes) return ''; const s = ['B','KB','MB','GB']; let i = 0; let v = bytes; while (v >= 1024 && i < s.length - 1) { v /= 1024; i++; } return v.toFixed(1) + ' ' + s[i]; }
+function formatSize(bytes) { if (!bytes) return ''; const s = ['B','KB','MB','GB']; let i = 0, v = bytes; while (v >= 1024 && i < s.length-1) { v /= 1024; i++; } return v.toFixed(1)+' '+s[i]; }
+
+load();
 </script>
 </body>
 </html>
