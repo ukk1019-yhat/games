@@ -53,5 +53,5 @@
 
 并将游戏文件打包为 `zip` 后缀，计算其 `sha256` 值。将其拷贝至 `bin/<identifier>.zip` 并测试运行。
 
-若运行成功，将 `zip` 文件发布至网上，并提 [Pull Request](https://github.com/rwv/chinese-dos-games/pulls)
+若运行成功，将 `zip` 文件发布至网上，并提 [Pull Request](https://github.com/ukk1019-yhat/games/pulls)
 
