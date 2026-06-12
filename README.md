@@ -113,7 +113,7 @@ See `CONTRIBUTING.md` for full guidelines.
 
 This project exists for **preservation and educational purposes**. All games remain the property of their original copyright holders.
 
-If you are a rights holder and have concerns, please contact **[your-email@example.com]** — the relevant content will be promptly removed.
+If you are a rights holder and have concerns, please contact **[ukkukk97@gmail.com]** — the relevant content will be promptly removed.
 
 ---
 
